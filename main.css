@@ -63,3 +63,17 @@ button {
     font-size: 1.4em;
     opacity: 0.5;
 }
+
+.state {
+    position: absolute;
+    opacity: 0;
+    font-size: 2em;
+}
+
+.clock:hover .state {
+    opacity: 1;
+}
+
+.clock:hover .session-time {
+    opacity: 0;
+}
