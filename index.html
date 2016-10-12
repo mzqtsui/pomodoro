@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Pomodoro</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
@@ -11,17 +13,22 @@
         <h1>Pomodoro</h1>
     </header>
     <article>
-        <form action="">
-            <section class="edit">
+        <section class="edit">
+            <div class="item">
                 <h4 class="title">Break length</h4>
+                <button><i class="fa fa-minus-circle" aria-hidden="true"></i></button>
                 <data class="length">0</data>
-            </section>
-            <section class="edit">
+                <button><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+            </div>
+            <div class="item">
                 <h4 class="title">Session length</h4>
+                <button><i class="fa fa-minus-circle" aria-hidden="true"></i></button>
                 <data class="length">0</data>
-            </section>
-        </form>
+                <button><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+            </div>
+        </section>
         <section class="clock">
+            <span class="state"></span>
             <time class="session-time">00:00</time>
         </section>
     </article>
