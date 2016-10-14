@@ -16,15 +16,15 @@
         <section class="edit">
             <div class="item">
                 <h4 class="title">Break length</h4>
-                <button><i class="fa fa-minus-circle" aria-hidden="true"></i></button>
-                <data class="length">0</data>
-                <button><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                <button class="length-btn" data-session="break" data-type="minus"><i class="fa fa-minus-circle" aria-hidden="true"></i></button>
+                <input type="text" class="length" id="break-length" value="0">
+                <button class="length-btn" data-session="break" data-type="plus"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
             </div>
             <div class="item">
-                <h4 class="title">Session length</h4>
-                <button><i class="fa fa-minus-circle" aria-hidden="true"></i></button>
-                <data class="length">0</data>
-                <button><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                <h4 class="title">Work length</h4>
+                <button class="length-btn" data-session="work" data-type="minus"><i class="fa fa-minus-circle" aria-hidden="true"></i></button>
+                <input type="text" class="length" id="work-length" value="0">
+                <button class="length-btn" data-session="work" data-type="plus"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
             </div>
         </section>
         <section class="clock">

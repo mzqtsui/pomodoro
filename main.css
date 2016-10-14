@@ -35,6 +35,15 @@ article {
     border: 5px solid #d35400;
     border-radius: 50%;
     cursor: pointer;
+    /* https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting-using-css */
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+
 }
 
 .session-time {
@@ -51,17 +60,26 @@ article {
 
 .length {
     font-size: 1.4em;
+    border: none;
+    width: 30px;
+    text-align: center;
 }
 
-button {
+.length-btn {
     border: none;
     background: none;
     cursor: pointer;
+    outline: none;
 }
 
 .fa {
     font-size: 1.6em;
     opacity: 0.3;
+    transition: all 0.1s;
+}
+
+.fa:hover {
+    opacity: 0.8;
 }
 
 .state {
@@ -76,8 +94,9 @@ button {
 
 .session-name {
     margin: 0;
+    text-transform: capitalize;
 }
 
-.clock.rest {
+.clock.break {
     border-color: #22a7f0;
 }

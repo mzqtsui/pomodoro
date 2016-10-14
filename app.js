@@ -15,7 +15,10 @@
     var stateSpan = document.querySelector(".state"),
         timeData = document.querySelector(".session-time"),
         clock = document.querySelector(".clock"),
-        sessionName = document.querySelector(".session-name");
+        sessionName = document.querySelector(".session-name"),
+        lengthButtons = document.querySelectorAll(".length-btn"),
+        breakLength = document.querySelector("#break-length"),
+        workLength = document.querySelector("#work-length");
 
 
     function formatTime(secs) {
@@ -54,10 +57,14 @@
 
     var timer = (function() {
 
-        var session = "Work",       // current work/rest state
+        var session = "work",       // current work/break state
             state = STATES.RESET,   // current timer state
-            maxWorkTime = 5,        // max work time in seconds
-            maxRestTime = 3,        // max rest time in seconds
+            maxTime = {
+                "work": 120,
+                "break": 60
+            },
+            maxWorkTime = 120,        // max work time in seconds
+            maxBreakTime = 60,        // max break time in seconds
             currTime = maxWorkTime,     // current time in seconds
             interval;
 
@@ -68,9 +75,9 @@
                 interval = setInterval(function() {
                         currTime -= 1;
                         if (currTime < 0) {
-                            session = (session === "Work") ? "Rest" : "Work";
-                            currTime = (session === "Work") ? maxWorkTime : maxRestTime;
-                            clock.classList.toggle("rest");
+                            session = (session === "work") ? "break" : "work";
+                            currTime = maxTime[session];
+                            clock.classList.toggle("break");
                             updateHoverIcon(state);
                             updateTime(currTime);
                             updateSessionName(session);
@@ -81,9 +88,9 @@
             },
             reset: () => {
                 state = STATES.RESET;
-                session = "Work";
-                currTime = maxWorkTime;
-                clock.classList.remove("rest");
+                session = "work";
+                currTime = maxTime["work"];
+                clock.classList.remove("break");
                 updateHoverIcon(state);
                 updateTime(currTime);
                 updateSessionName(session);
@@ -94,12 +101,21 @@
                 clearInterval(interval);
             },
             getTime: () => currTime,
-            getState: () => state
+            getState: () => state,
+            incrementMaxTime: (type) => {
+                maxTime[type] += 60;
+            },
+            decrementMaxTime: (type) => {
+                maxTime[type] -= 60;
+            },
+            getMaxMins: (type) => maxTime[type] / 60
         };
     }());
 
     updateHoverIcon(timer.getState());
     updateTime(timer.getTime());
+    breakLength.setAttribute("value", timer.getMaxMins("break"));
+    workLength.setAttribute("value", timer.getMaxMins("work"));
 
     clock.addEventListener("click", () => {
         switch (timer.getState()) {
@@ -117,6 +133,23 @@
             default:
 
         }
+    });
+
+    lengthButtons.forEach((btn) => {
+        var sessionType = btn.dataset.session,
+            modType = btn.dataset.type;
+
+        btn.addEventListener("click", (ev) => {
+            if (modType === "plus")
+                timer.incrementMaxTime(sessionType);
+            else if (modType === "minus")
+                timer.decrementMaxTime(sessionType);
+
+            if(sessionType === "break")
+                breakLength.setAttribute("value", timer.getMaxMins("break"));
+            else if(sessionType === "work")
+                workLength.setAttribute("value", timer.getMaxMins("work"));
+        });
     });
 
 })();
