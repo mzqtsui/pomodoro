@@ -100,3 +100,9 @@ article {
 .clock.break {
     border-color: #22a7f0;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

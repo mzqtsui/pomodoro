@@ -54,6 +54,11 @@
         }
     }
 
+    function updateInputs() {
+        breakLength.setAttribute("value", timer.getMaxMins("break"));
+        workLength.setAttribute("value", timer.getMaxMins("work"));
+    }
+
 
     var timer = (function() {
 
@@ -63,9 +68,7 @@
                 "work": 120,
                 "break": 60
             },
-            maxWorkTime = 120,        // max work time in seconds
-            maxBreakTime = 60,        // max break time in seconds
-            currTime = maxWorkTime,     // current time in seconds
+            currTime = maxTime["work"],     // current time in seconds
             interval;
 
         return {
@@ -94,6 +97,7 @@
                 updateHoverIcon(state);
                 updateTime(currTime);
                 updateSessionName(session);
+                clearInterval(interval);
             },
             pause: () => {
                 state = STATES.PAUSED;
@@ -107,6 +111,8 @@
             },
             decrementMaxTime: (type) => {
                 maxTime[type] -= 60;
+                if(maxTime[type] < 60)
+                    maxTime[type] = 60;
             },
             getMaxMins: (type) => maxTime[type] / 60
         };
@@ -114,8 +120,7 @@
 
     updateHoverIcon(timer.getState());
     updateTime(timer.getTime());
-    breakLength.setAttribute("value", timer.getMaxMins("break"));
-    workLength.setAttribute("value", timer.getMaxMins("work"));
+    updateInputs();
 
     clock.addEventListener("click", () => {
         switch (timer.getState()) {
@@ -145,10 +150,8 @@
             else if (modType === "minus")
                 timer.decrementMaxTime(sessionType);
 
-            if(sessionType === "break")
-                breakLength.setAttribute("value", timer.getMaxMins("break"));
-            else if(sessionType === "work")
-                workLength.setAttribute("value", timer.getMaxMins("work"));
+            updateInputs();
+            timer.reset();
         });
     });
 
