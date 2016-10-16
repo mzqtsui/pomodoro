@@ -60,63 +60,62 @@
     }
 
 
-    var timer = (function() {
+    var timer = {
 
-        var session = "work",       // current work/break state
-            state = STATES.RESET,   // current timer state
-            maxTime = {
-                "work": 120,
-                "break": 60
-            },
-            currTime = maxTime["work"],     // current time in seconds
-            interval;
+        session: "work",       // current work/break state
+        state: STATES.RESET,   // current timer state
+        maxTime: {
+            "work": 120,
+            "break": 60
+        },
+        currTime: 120,     // current time in seconds
+        interval: null,
 
-        return {
-            start: () => {
-                state = STATES.RUNNING;
-                updateHoverIcon(state);
-                interval = setInterval(function() {
-                        currTime -= 1;
-                        if (currTime < 0) {
-                            session = (session === "work") ? "break" : "work";
-                            currTime = maxTime[session];
-                            clock.classList.toggle("break");
-                            updateHoverIcon(state);
-                            updateTime(currTime);
-                            updateSessionName(session);
-                        }
-                        updateTime(currTime);
-                    }, 1000);
-
-            },
-            reset: () => {
-                state = STATES.RESET;
-                session = "work";
-                currTime = maxTime["work"];
-                clock.classList.remove("break");
-                updateHoverIcon(state);
-                updateTime(currTime);
-                updateSessionName(session);
-                clearInterval(interval);
-            },
-            pause: () => {
-                state = STATES.PAUSED;
-                updateHoverIcon(state);
-                clearInterval(interval);
-            },
-            getTime: () => currTime,
-            getState: () => state,
-            incrementMaxTime: (type) => {
-                maxTime[type] += 60;
-            },
-            decrementMaxTime: (type) => {
-                maxTime[type] -= 60;
-                if(maxTime[type] < 60)
-                    maxTime[type] = 60;
-            },
-            getMaxMins: (type) => maxTime[type] / 60
-        };
-    }());
+        start: function() {
+            this.state = STATES.RUNNING;
+            updateHoverIcon(this.state);
+            this.interval = setInterval(function() {
+                    this.currTime -= 1;
+                    if (this.currTime < 0) {
+                        this.session = (this.session === "work") ? "break" : "work";
+                        this.currTime = this.maxTime[session];
+                        clock.classList.toggle("break");
+                        updateHoverIcon(this.state);
+                        updateTime(this.currTime);
+                        updateSessionName(this.session);
+                    }
+                    updateTime(this.currTime);
+                }.bind(this), 1000);
+        },
+        reset: function() {
+            this.state = STATES.RESET;
+            this.session = "work";
+            this.currTime = this.maxTime["work"];
+            clock.classList.remove("break");
+            updateHoverIcon(this.state);
+            updateTime(this.currTime);
+            updateSessionName(this.session);
+            clearInterval(this.interval);
+        },
+        pause: function() {
+            this.state = STATES.PAUSED;
+            updateHoverIcon(this.state);
+            clearInterval(this.interval);
+        },
+        getTime: function() { return this.currTime; },
+        getState: function() { return this.state; } ,
+        incrementMaxTime: function(type) {
+            this.maxTime[type] += 60;
+        },
+        decrementMaxTime: function(type) {
+            this.maxTime[type] -= 60;
+            if(this.maxTime[type] < 60)
+                this.maxTime[type] = 60;
+        },
+        getMaxMins: function(type) {
+            return this.maxTime[type] / 60;
+        }
+    };
 
     updateHoverIcon(timer.getState());
     updateTime(timer.getTime());
